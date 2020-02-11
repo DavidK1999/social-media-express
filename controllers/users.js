@@ -9,18 +9,18 @@ router.post('/register', async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
     const userDbEntry = {
         username: req.body.username, 
-        password: hashedPassword,
+        password: req.body.password,
         email: req.body.email
     }
     try {
-        console.log('Hi');
         const createdUser = await User.create(userDbEntry);
         req.session.username = createdUser.username;
         req.session.logged = true;
-        res.status(200).json(createdUser);
+        res.status(200).send({data: createdUser, message:'Success'});
         // res.send(data = createdUser, status={code: 200});
-    } catch (error) {
+    }catch(error) {
         console.log(error);
+        res.status(400).send({data: {},  message: 'Sorry, this user or email already exists'});
     }
 });
 

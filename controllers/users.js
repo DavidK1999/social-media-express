@@ -18,7 +18,7 @@ router.post('/register', async (req, res) => {
         req.session.logged = true;
         res.status(200).send({data: createdUser, status:{code: 200, message: 'Success'}});
         // res.send(data = createdUser, status={code: 200});
-    }catch(error) {
+    } catch(error) {
         console.log(error);
         res.status(400).send({data: {},  status:{code :400, message: 'Sorry, this user or email already exists'}});
     }
@@ -38,7 +38,8 @@ router.post('/login', async (req, res) => {
                 res.status(400).send({data: {},  status:{code :400, message: 'Sorry, this user or email already exists'}});
             }
         } else {
-            req.session.message = 'Username or password is incorrect';
+            res.status(400).send({data: {},  status:{code :400, message: 'Sorry, this user or email already exists'}});
+
         }
     } catch(err) {
         res.send(err);

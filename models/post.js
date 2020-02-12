@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema({
     body: {type: String, required: true},
     timestamp: {type: Date, default: Date.now},
     likes: {type: Number, default: 0}
-})
+});
 
 const Post = mongoose.model('Post', postSchema);
 

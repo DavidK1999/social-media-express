@@ -28,4 +28,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const usersController = require('./controllers/users.js');
 app.use('/auth', usersController);
 
+const postsController = require('./controllers/posts.js');
+app.use('/post', usersController);
+
 app.listen(port, () => {console.log(`Listening on port ${port}`)});

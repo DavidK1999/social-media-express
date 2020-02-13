@@ -10,7 +10,16 @@ router.post('/create/:user', async (req, res) => {
         console.log(error);
     }
 });
-router.get('/retrieve/:user');
+
+router.get('/retrieve/:user', async (req, res) => {
+    try {
+        const allPosts = await Post.find();
+        res.status(200).send({data: allPosts, status:{code: 200, message: 'success'}});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.put('/edit/:user');
 router.delete('/delete/:user');
 

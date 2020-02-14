@@ -6,7 +6,7 @@ router.post('/create/:user', async (req, res) => {
     try {
         req.body.user = req.params.user;
         // TODO remove user password before sending it to the front end
-        const createdPost = await Post.create(req.body);
+        let createdPost = await Post.create(req.body);
         res.status(200).send({data: createdPost, status:{code:200, message: 'successs'}});
     } catch (error) {
         console.log(error);
@@ -16,14 +16,13 @@ router.post('/create/:user', async (req, res) => {
 router.get('/retrieve', async (req, res) => {
     try {
         const allPosts = await Post.find().populate({path: 'user'}).exec();
-        console.log(allPosts);
         res.status(200).send({data: allPosts, status:{code: 200, message: 'success'}});
     } catch (error) {
         console.log(error);
     }
 });
 
-router.put('/edit/:user', async (req, res) => {
+router.put('/edit/:id', async (req, res) => {
     try {
         // TODO Edit posts associated with the currently logged in user
         const userPost = await Post.find();
@@ -32,12 +31,13 @@ router.put('/edit/:user', async (req, res) => {
     }
 });
 
-router.delete('/delete/:user', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     try {
         // TODO Delete posts associated with the currently logged in user
-        const deletePost = await Post.find();
+        const deletedPost = await Post.findByIdAndRemove(req.params.id);
+        res.status(200).send(deletedPost);
     } catch (error) {
-        console.log(error);
+        res.status(400).json({error: err.message})
     }
 });
 

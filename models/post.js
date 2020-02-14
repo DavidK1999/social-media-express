@@ -20,7 +20,7 @@ const dayMonth = `${day} ${month} ${dayNumber} ${time}`
 const postSchema = mongoose.Schema({
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     body: {type: String, required: true},
-    timestamp: {type: String, default: dayMonth},
+    timestamp: {type: Date, default: Date.now},
     likes: {type: Number, default: 0},
     tags: {type: [String]}
 });

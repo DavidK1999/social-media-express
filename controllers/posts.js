@@ -23,11 +23,22 @@ router.get('/retrieve', async (req, res) => {
     }
 });
 
-router.put('/edit/:user');
+router.put('/edit/:user', async (req, res) => {
+    try {
+        // TODO Edit posts associated with the currently logged in user
+        const userPost = await Post.find();
+    } catch (error) {
+        console.log(error);
+    }
+});
 
-
-
-
-router.delete('/delete/:user');
+router.delete('/delete/:user', async (req, res) => {
+    try {
+        // TODO Delete posts associated with the currently logged in user
+        const deletePost = await Post.find();
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 module.exports = router;

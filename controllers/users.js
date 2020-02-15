@@ -46,6 +46,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
+
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if(err) {
@@ -56,4 +57,15 @@ router.get('/logout', (req, res) => {
     })
 })
 
+router.put('/update/:user', async (req, res) => {
+    try {
+        const updatedUser = User.update({_id: req.params.id}, {
+            $set: {likedPosts: likedPosts.push(req.body)}
+        });
+        res.status(200).send({data: updatedUser, status: {code: 200, message: 'success'}});
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({data: {}, status:{code: 400, message: 'failure'}});
+    }
+});
 module.exports = router;

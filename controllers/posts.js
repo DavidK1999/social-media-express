@@ -6,7 +6,7 @@ router.post('/create/:user', async (req, res) => {
     try {
         req.body.user = req.params.user;
         // TODO remove user password before sending it to the front end
-        let createdPost = await Post.create(req.body);
+        let createdPost = await (await Post.create(req.body)).populate(req.body.user);
         res.status(200).send({data: createdPost, status:{code:200, message: 'successs'}});
     } catch (error) {
         console.log(error);
@@ -22,12 +22,12 @@ router.get('/retrieve', async (req, res) => {
     }
 });
 
-router.put('/edit/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
     try {
-        // TODO Edit posts associated with the currently logged in user
-        const userPost = await Post.find();
+        const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        res.status(200).send({data: updatedPost, status: {code: 200, message: 'success'}});
     } catch (error) {
-        console.log(error);
+        res.status(400).send({data: {}, status:{code: 400, message: 'failure'}});
     }
 });
 

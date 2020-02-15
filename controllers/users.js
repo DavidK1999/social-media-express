@@ -46,6 +46,19 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.put('/add/:id', async (req, res) => {
+    try {
+        console.log(req.body);
+        const foundUser = await User.findByIdAndUpdate(req.params.id, 
+            {$push: {likedPosts: req.body}
+        });
+        res.status(200).send({data: foundUser, status: {code: 200, message: 'success'}});
+
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {

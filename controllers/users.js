@@ -60,9 +60,22 @@ router.patch('/add/:id', async (req, res) => {
     try {
         console.log('updated');
         const foundUser = await User.findByIdAndUpdate(req.params.id, 
-            {$addToSet: {"likedPosts": req.body._id}
-        });
+            {$addToSet: {"likedPosts": req.body._id}},{new: true},
+        );
         res.status(200).send({data: foundUser, status: {code: 200, message: 'success'}});
+
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.patch('/follow/:id', async (req, res) => {
+    try {
+        console.log('followed');
+        const followedUser = await User.findByIdAndUpdate(req.params.id, 
+            {$addToSet: {"followedUsers": req.body._id}},{new: true},
+        );
+        res.status(200).send({data: followedUser, status: {code: 200, message: 'success'}});
 
     } catch (error) {
         console.log(error);
@@ -71,11 +84,7 @@ router.patch('/add/:id', async (req, res) => {
 
 router.get('/retrieve/:user', async (req, res) => {
     try {
-        if(req.param.id === undefined) {
-            console.log('This is undefined')
-        } else {
-            console.log('This is DEFINED');
-        }
+        console.log('Your data is: ',req.params.id);
         const foundUser = await User.findById(req.params.id);
 
         res.status(200).send({data: foundUser, status: {code: 200, message: 'success'}});

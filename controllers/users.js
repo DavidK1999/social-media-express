@@ -46,20 +46,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.put('/add/:id', async (req, res) => {
-    try {
-        console.log(req.body);
-        const foundUser = await User.findByIdAndUpdate(req.params.id, 
-            {$push: {likedPosts: req.body}
-        });
-        res.status(200).send({data: foundUser, status: {code: 200, message: 'success'}});
-
-    } catch (error) {
-        console.log(error);
-    }
-})
-
-
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if(err) {
@@ -70,15 +56,33 @@ router.get('/logout', (req, res) => {
     })
 })
 
-router.put('/update/:user', async (req, res) => {
+router.patch('/add/:id', async (req, res) => {
     try {
-        const updatedUser = User.update({_id: req.params.id}, {
-            $set: {likedPosts: likedPosts.push(req.body)}
+        console.log('updated');
+        const foundUser = await User.findByIdAndUpdate(req.params.id, 
+            {$addToSet: {"likedPosts": req.body._id}
         });
-        res.status(200).send({data: updatedUser, status: {code: 200, message: 'success'}});
+        res.status(200).send({data: foundUser, status: {code: 200, message: 'success'}});
+
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.get('/retrieve/:user', async (req, res) => {
+    try {
+        if(req.param.id === undefined) {
+            console.log('This is undefined')
+        } else {
+            console.log('This is DEFINED');
+        }
+        const foundUser = await User.findById(req.params.id);
+
+        res.status(200).send({data: foundUser, status: {code: 200, message: 'success'}});
     } catch (error) {
         console.log(error);
         res.status(400).send({data: {}, status:{code: 400, message: 'failure'}});
     }
 });
+
 module.exports = router;

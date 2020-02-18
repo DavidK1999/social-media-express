@@ -9,8 +9,8 @@ router.post('/register', async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
     const userDbEntry = {
         username: req.body.username, 
-        password: hashedPassword,
-        email: req.body.email
+        email: req.body.email,
+        password: hashedPassword
     }
     try {
         const createdUser = await User.create(userDbEntry);
@@ -58,7 +58,7 @@ router.get('/logout', (req, res) => {
 
 router.patch('/add/:id', async (req, res) => {
     try {
-        console.log('updated');
+        console.log('User Updated');
         const foundUser = await User.findByIdAndUpdate(req.params.id, 
             {$addToSet: {"likedPosts": req.body._id}},{new: true},
         );

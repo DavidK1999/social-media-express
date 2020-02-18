@@ -8,7 +8,6 @@ router.post('/create/:user', async (req, res) => {
         delete req.body.user.password
         // TODO remove user password before sending it to the front end
         let createdPost = await Post.create(req.body);
-        console.log(createdPost);
         res.status(200).send({data: createdPost, status:{code:200, message: 'successs'}});
     } catch (error) {
         console.log(error);
@@ -19,8 +18,16 @@ router.get('/retrieve', async (req, res) => {
     try {
         console.log('Fetched');
         const allPosts = await Post.find().populate({path: 'user'}).exec();
-        console.log(allPosts);
         res.status(200).send({data: allPosts, status:{code: 200, message: 'success'}});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/retrieve/:user', async (req, res) => {
+    try {
+        const userPosts = await Post.find({"user": req.params.user});
+        res.status(200).send({data: userPosts, status:{code: 200, message: 'success'}});
     } catch (error) {
         console.log(error);
     }
@@ -28,9 +35,7 @@ router.get('/retrieve', async (req, res) => {
 
 router.get('/tags/:tags', async (req, res) => {
     try {
-        console.log(req.params.tags);
         const taggedPosts = await Post.find({tags: req.params.tags});
-        console.log(taggedPosts);
         res.status(200).send({data: taggedPosts, status:{code: 200, message: 'success'}});
     } catch (error) {
         console.log(error);
@@ -39,7 +44,7 @@ router.get('/tags/:tags', async (req, res) => {
 
 router.patch('/upvote/:id', async (req, res) => {
     try {
-        console.log('Added');
+        console.log('Post Upvoted')
         const updatedPost = await Post.findByIdAndUpdate(req.params.id, 
             {$inc : {'likes': 1}}
         

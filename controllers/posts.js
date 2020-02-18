@@ -19,7 +19,19 @@ router.get('/retrieve', async (req, res) => {
     try {
         console.log('Fetched');
         const allPosts = await Post.find().populate({path: 'user'}).exec();
+        console.log(allPosts);
         res.status(200).send({data: allPosts, status:{code: 200, message: 'success'}});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/tags/:tags', async (req, res) => {
+    try {
+        console.log(req.params.tags);
+        const taggedPosts = await Post.find({tags: req.params.tags});
+        console.log(taggedPosts);
+        res.status(200).send({data: taggedPosts, status:{code: 200, message: 'success'}});
     } catch (error) {
         console.log(error);
     }

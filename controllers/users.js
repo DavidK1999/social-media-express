@@ -58,7 +58,6 @@ router.get('/logout', (req, res) => {
 
 router.patch('/add/:id', async (req, res) => {
     try {
-        console.log('User Updated');
         const foundUser = await User.findByIdAndUpdate(req.params.id, 
             {$addToSet: {"likedPosts": req.body._id}},{new: true},
         );
@@ -71,10 +70,10 @@ router.patch('/add/:id', async (req, res) => {
 
 router.patch('/count/:id', async (req, res) => {
     try {
-        console.log('Hi');
         const incremented = await User.findByIdAndUpdate(req.params.id, 
-            {$inc: {"createdPosts": 1}},{new: true},
+            {$inc: {"createdPosts": +1}},{new: true},
         );
+        console.log(incremented);
         res.status(200).send({data: incremented, status: {code: 200, message: 'success'}});
 
     } catch (error) {
@@ -84,10 +83,9 @@ router.patch('/count/:id', async (req, res) => {
 
 router.patch('/follow/:id', async (req, res) => {
     try {
-        console.log('followed');
         const followedUser = await User.findByIdAndUpdate(req.params.id, 
-            {$addToSet: {"followedUsers": req.body._id}},{new: true},
-        );
+            {$addToSet: {"followedUsers": req.body.username, "followedUsersPosts": req.body}, $inc: {"followedUsersCount": 1}}, {new: true});
+        console.log(followedUser);
         res.status(200).send({data: followedUser, status: {code: 200, message: 'success'}});
 
     } catch (error) {

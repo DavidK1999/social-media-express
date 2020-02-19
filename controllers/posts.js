@@ -39,7 +39,7 @@ router.patch('/upvote/:id', async (req, res) => {
 });
 router.put('/update/:id', async (req, res) => {
     try {
-        const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {new:true});
+        const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {new:true}).populate({path: 'user'}).exec();
         res.status(200).send({data: updatedPost, status: {code: 200, message: "success"}});
     } catch (error) {
         res.status(400).send({data: {}, status:{code: 400, message: 'failure'}});

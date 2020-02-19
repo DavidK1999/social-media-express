@@ -8,6 +8,7 @@ router.post('/create/:user', async (req, res) => {
         delete req.body.user.password
         // TODO remove user password before sending it to the front end
         let createdPost = await Post.create(req.body);
+        console.log(createdPost);
         res.status(200).send({data: createdPost, status:{code:200, message: 'successs'}});
     } catch (error) {
         console.log(error);
@@ -46,9 +47,9 @@ router.patch('/upvote/:id', async (req, res) => {
     try {
         console.log('Post Upvoted')
         const updatedPost = await Post.findByIdAndUpdate(req.params.id, 
-            {$inc : {'likes': 1}}
-        
-        );
+            {$inc : {'likes': 1}}, {new:true}
+        ).populate({path: 'user'}).exec()
+        console.log(updatedPost);
         res.status(200).send({data: updatedPost, status: {code: 200, message: 'success'}});
     } catch (error) {
         res.status(400).send({data: {}, status:{code: 400, message: 'failure'}});

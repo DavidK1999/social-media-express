@@ -69,6 +69,19 @@ router.patch('/add/:id', async (req, res) => {
     }
 })
 
+router.patch('/count/:id', async (req, res) => {
+    try {
+        console.log('Hi');
+        const incremented = await User.findByIdAndUpdate(req.params.id, 
+            {$inc: {"createdPosts": 1}},{new: true},
+        );
+        res.status(200).send({data: incremented, status: {code: 200, message: 'success'}});
+
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 router.patch('/follow/:id', async (req, res) => {
     try {
         console.log('followed');
@@ -82,16 +95,6 @@ router.patch('/follow/:id', async (req, res) => {
     }
 })
 
-router.get('/retrieve/:user', async (req, res) => {
-    try {
-        console.log('Your data is: ',req.params.id);
-        const foundUser = await User.findById(req.params.id);
 
-        res.status(200).send({data: foundUser, status: {code: 200, message: 'success'}});
-    } catch (error) {
-        console.log(error);
-        res.status(400).send({data: {}, status:{code: 400, message: 'failure'}});
-    }
-});
 
 module.exports = router;

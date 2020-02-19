@@ -25,24 +25,6 @@ router.get('/retrieve', async (req, res) => {
     }
 });
 
-router.get('/retrieve/:user', async (req, res) => {
-    try {
-        const userPosts = await Post.find({"user": req.params.user});
-        res.status(200).send({data: userPosts, status:{code: 200, message: 'success'}});
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-router.get('/tags/:tags', async (req, res) => {
-    try {
-        const taggedPosts = await Post.find({tags: req.params.tags});
-        res.status(200).send({data: taggedPosts, status:{code: 200, message: 'success'}});
-    } catch (error) {
-        console.log(error);
-    }
-});
-
 router.patch('/upvote/:id', async (req, res) => {
     try {
         console.log('Post Upvoted')

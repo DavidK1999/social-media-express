@@ -6,7 +6,9 @@ const userSchema = mongoose.Schema({
     password: {type: String, required: true},
     likedPosts: {type: [String]},
     createdPosts: {type: Number ,default: 0},
-    followedUsers: {type: [mongoose.Schema.Types.ObjectId], ref: 'Following'}
+    followedUsers: {type: [String]},
+    followedUsersPosts: {type: [Object]},
+    followedUsersCount: {type: Number, default: 0}
 })
 
 const User = mongoose.model('User', userSchema);

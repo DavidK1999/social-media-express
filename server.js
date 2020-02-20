@@ -1,9 +1,10 @@
 const express = require('express');
+require('dotenv').config();
+port = process.env.PORT
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
-const port = 8000;
 const whitelist = ['http://localhost:3000']
 const corsOptions = {
     origin: function (origin, callback) {
@@ -30,5 +31,6 @@ app.use('/auth', usersController);
 
 const postsController = require('./controllers/posts.js');
 app.use('/post', postsController);
+
 
 app.listen(port, () => {console.log(`Listening on port ${port}`)});

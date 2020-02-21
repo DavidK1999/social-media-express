@@ -7,7 +7,7 @@ router.post('/create/:user', async (req, res) => {
         req.body.user = req.params.user; 
         delete req.body.user.password
         // TODO remove user password before sending it to the front end
-        let createdPost = await Post.create(req.body).populate({path: 'user'}).exec();
+        let createdPost = await Post.create(req.body);
         console.log('CREATED', createdPost);
         res.status(200).send({data: createdPost, status:{code:200, message: 'successs'}});
     } catch (error) {

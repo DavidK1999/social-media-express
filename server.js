@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+require('dotenv').config();
+port = process.env.PORT
 const app = express();
 const port = process.env.PORT;
 const bodyParser = require('body-parser');
@@ -31,5 +33,6 @@ app.use('/auth', usersController);
 
 const postsController = require('./controllers/posts.js');
 app.use('/post', postsController);
+
 
 app.listen(port, () => {console.log(`Listening on port ${port}`)});

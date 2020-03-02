@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
+const port = process.env.PORT;
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
-const port = 8000;
 const whitelist = ['http://localhost:3000']
 const corsOptions = {
     origin: function (origin, callback) {
